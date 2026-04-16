@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const api = axios.create({
-  baseURL: 'https://pms-real.onrender.com',
+  baseURL: 'https://pms-real.onrender.com/api',
   headers: {
     'Accept': 'application/json',
     'Content-Type': 'application/json',
