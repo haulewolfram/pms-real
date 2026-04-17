@@ -19,9 +19,11 @@ return [
 
     'allowed_methods' => ['*'],
 
-    'allowed_origins' => ['https://pms-real-p1gpm76e9-haulewolframs-projects.vercel.app'],
+    'allowed_origins' => explode(',', env('ALLOWED_ORIGINS', 'https://pms-real.vercel.app,http://localhost:5173')),
 
-    'allowed_origins_patterns' => [],
+    'allowed_origins_patterns' => [
+        '#^https://pms-real-.*-haulewolframs-projects\.vercel\.app$#'
+    ],
 
     'allowed_headers' => ['*'],
 
