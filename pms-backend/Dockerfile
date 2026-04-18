@@ -20,7 +20,8 @@ RUN apt-get update && apt-get install -y \
 RUN apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # Install PHP extensions
-RUN docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath gd
+RUN apt-get update && apt-get install -y libpq-dev && \
+    docker-php-ext-install pdo_pgsql pgsql pdo_mysql mbstring exif pcntl bcmath gd
 
 # Get latest Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
@@ -31,6 +32,10 @@ WORKDIR /var/www
 # Copy existing application directory contents
 COPY . /var/www
 
+# Copy entrypoint script and make it executable
+COPY docker/entrypoint.sh /usr/local/bin/entrypoint.sh
+RUN chmod +x /usr/local/bin/entrypoint.sh
+
 # Install Composer dependencies
 RUN composer install --no-interaction --optimize-autoloader --no-dev
 
@@ -38,9 +43,6 @@ RUN composer install --no-interaction --optimize-autoloader --no-dev
 RUN chown -R www-data:www-data /var/www/storage /var/www/bootstrap/cache
 RUN chmod -R 775 /var/www/storage /var/www/bootstrap/cache
 
-# Build frontend assets if necessary (using Vite etc.)
-# RUN npm install && npm run build
-
-# Expose port 9000 and start php-fpm server
-EXPOSE 9000
-CMD php artisan serve --host=0.0.0.0 --port=$PORT
+# Expose port and start via entrypoint
+EXPOSE 8000
+ENTRYPOINT ["entrypoint.sh"]

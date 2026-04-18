@@ -42,7 +42,7 @@ services:
     ports:
       - "33061:3306"
     environment:
-      MYSQL_DATABASE: phamarcy
+      MYSQL_DATABASE: pharmacy
       MYSQL_ROOT_PASSWORD: root_password
       MYSQL_PASSWORD: user_password
       MYSQL_USER: pms_user
