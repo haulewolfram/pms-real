@@ -11,15 +11,17 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('sales', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('user_id')->constrained()->cascadeOnDelete();
-            $table->decimal('total_amount', 12, 2)->default(0);
-            $table->decimal('discount', 10, 2)->default(0);
-            $table->decimal('tax', 10, 2)->default(0);
-            $table->string('payment_method')->default('cash');
-            $table->timestamps();
-        });
+        if (!Schema::hasTable('sales')) {
+            Schema::create('sales', function (Blueprint $table) {
+                $table->id();
+                $table->foreignId('user_id')->constrained()->cascadeOnDelete();
+                $table->decimal('total_amount', 12, 2)->default(0);
+                $table->decimal('discount', 10, 2)->default(0);
+                $table->decimal('tax', 10, 2)->default(0);
+                $table->string('payment_method')->default('cash');
+                $table->timestamps();
+            });
+        }
     }
 
     /**

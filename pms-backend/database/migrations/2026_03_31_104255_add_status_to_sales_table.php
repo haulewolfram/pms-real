@@ -12,8 +12,12 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('sales', function (Blueprint $table) {
-            $table->string('status')->default('completed')->after('payment_method');
-            $table->text('refund_reason')->nullable()->after('status');
+            if (!Schema::hasColumn('sales', 'status')) {
+                $table->string('status')->default('completed')->after('payment_method');
+            }
+            if (!Schema::hasColumn('sales', 'refund_reason')) {
+                $table->text('refund_reason')->nullable()->after('status');
+            }
         });
     }
 

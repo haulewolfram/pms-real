@@ -11,17 +11,19 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('medicines', function (Blueprint $table) {
-            $table->id();
-            $table->string('name');
-            $table->string('category')->nullable();
-            $table->string('batch_no')->nullable();
-            $table->date('expiry_date')->nullable();
-            $table->decimal('purchase_price', 10, 2);
-            $table->decimal('selling_price', 10, 2);
-            $table->string('manufacturer')->nullable();
-            $table->timestamps();
-        });
+        if (!Schema::hasTable('medicines')) {
+            Schema::create('medicines', function (Blueprint $table) {
+                $table->id();
+                $table->string('name');
+                $table->string('category')->nullable();
+                $table->string('batch_no')->nullable();
+                $table->date('expiry_date')->nullable();
+                $table->decimal('purchase_price', 10, 2);
+                $table->decimal('selling_price', 10, 2);
+                $table->string('manufacturer')->nullable();
+                $table->timestamps();
+            });
+        }
     }
 
     /**

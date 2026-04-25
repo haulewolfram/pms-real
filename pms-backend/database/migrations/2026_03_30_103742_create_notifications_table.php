@@ -11,15 +11,17 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('notifications', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('medicine_id')->nullable()->constrained()->onDelete('set null');
-            $table->string('type');
-            $table->text('message');
-            $table->string('status')->default('unread');
-            $table->timestamp('resolved_at')->nullable();
-            $table->timestamps();
-        });
+        if (!Schema::hasTable('notifications')) {
+            Schema::create('notifications', function (Blueprint $table) {
+                $table->id();
+                $table->foreignId('medicine_id')->nullable()->constrained()->onDelete('set null');
+                $table->string('type');
+                $table->text('message');
+                $table->string('status')->default('unread');
+                $table->timestamp('resolved_at')->nullable();
+                $table->timestamps();
+            });
+        }
     }
 
     /**

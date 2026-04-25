@@ -12,7 +12,9 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('medicines', function (Blueprint $row) {
-            $row->string('status')->default('active')->after('expiry_date');
+            if (!Schema::hasColumn('medicines', 'status')) {
+                $row->string('status')->default('active')->after('expiry_date');
+            }
         });
     }
 

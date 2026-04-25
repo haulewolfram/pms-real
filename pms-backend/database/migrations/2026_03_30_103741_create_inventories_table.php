@@ -11,14 +11,16 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('inventories', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('medicine_id')->constrained()->cascadeOnDelete();
-            $table->integer('quantity')->default(0);
-            $table->integer('min_stock_level')->default(10);
-            $table->timestamp('last_updated')->useCurrent()->useCurrentOnUpdate();
-            $table->timestamps();
-        });
+        if (!Schema::hasTable('inventories')) {
+            Schema::create('inventories', function (Blueprint $table) {
+                $table->id();
+                $table->foreignId('medicine_id')->constrained()->cascadeOnDelete();
+                $table->integer('quantity')->default(0);
+                $table->integer('min_stock_level')->default(10);
+                $table->timestamp('last_updated')->useCurrent()->useCurrentOnUpdate();
+                $table->timestamps();
+            });
+        }
     }
 
     /**
